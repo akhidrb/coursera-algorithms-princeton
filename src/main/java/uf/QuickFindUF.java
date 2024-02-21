@@ -1,6 +1,6 @@
 package src.main.java.uf;
 
-public class QuickFindUF {
+public class QuickFindUF implements UF {
 
     int n;
     int[] relation;
