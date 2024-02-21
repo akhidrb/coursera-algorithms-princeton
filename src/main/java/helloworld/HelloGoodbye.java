@@ -1,4 +1,4 @@
-package src.main.java;
+package src.main.java.helloworld;
 
 public class HelloGoodbye {
     public static void main(String[] args) {

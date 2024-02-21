@@ -1,8 +1,8 @@
-package test.java;
+package test.java.uf;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import src.main.java.QuickFindUF;
+import src.main.java.uf.QuickFindUF;
 
 import java.io.File;
 import java.io.FileNotFoundException;
