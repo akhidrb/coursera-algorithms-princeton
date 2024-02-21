@@ -13,7 +13,7 @@ public class QuickUnionUF implements UF {
     }
 
     public void union(int p, int q) {
-        this.relation[p] = getRoot(q);
+        this.relation[getRoot(p)] = getRoot(q);
     }
 
     public boolean connected(int p, int q) {
