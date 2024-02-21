@@ -34,6 +34,7 @@ public class QuickUnionUF implements UF {
 
     private int getRoot(int p) {
         while (relation[p] != p) {
+            relation[p] = relation[relation[p]];
             p = relation[p];
         }
         return p;

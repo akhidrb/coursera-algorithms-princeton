@@ -7,6 +7,7 @@ import src.main.java.uf.UF;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Random;
 import java.util.Scanner;
 
 public class UFTest {
@@ -22,6 +23,23 @@ public class UFTest {
     @Test
     public void compareQuickUnionUF() {
         compareUF(quickUnion);
+    }
+
+    @Test
+    public void benchmarkQuickUnionUF() {
+        Random rand = new Random();
+        int N = 100000000;
+        UF uf = getUFType(quickUnion, N);
+        for (int i = 0; i < 100; i++) {
+            int p = rand.nextInt(100000000);
+            int q = rand.nextInt(100000000);
+            uf.union(p, q);
+        }
+        for (int i = 0; i < 100; i++) {
+            int p = rand.nextInt(100000000);
+            int q = rand.nextInt(100000000);
+            System.out.print(uf.connected(p, q));
+        }
     }
 
     private void compareUF(String ufType) {
