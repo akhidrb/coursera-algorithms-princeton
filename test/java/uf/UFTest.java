@@ -2,6 +2,7 @@ package test.java.uf;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import src.main.java.uf.QuickFindUF;
 import src.main.java.uf.QuickUnionUF;
 import src.main.java.uf.UF;
 
@@ -17,7 +18,11 @@ public class UFTest {
 
     @Test
     public void compareQuickFindUF() {
-        compareUF(quickFind);
+        UF uf = compareUF(quickFind);
+        QuickFindUF qf = (QuickFindUF) uf;
+        Assertions.assertEquals(6, qf.find(0));
+        Assertions.assertEquals(7, qf.find(1));
+        Assertions.assertEquals(9, qf.find(3));
     }
 
     @Test
@@ -42,12 +47,13 @@ public class UFTest {
         }
     }
 
-    private void compareUF(String ufType) {
+    private UF compareUF(String ufType) {
+        UF uf = null;
         try {
             File myObj = new File("assets/union-find.txt");
             Scanner myReader = new Scanner(myObj);
             int N = myReader.nextInt();
-            UF uf = getUFType(ufType, N);
+            uf = getUFType(ufType, N);
             int inp = myReader.nextInt();
             for (int i = 0; i < inp; i++) {
                 int p = myReader.nextInt();
@@ -67,12 +73,13 @@ public class UFTest {
             System.out.println("An error occurred.");
             e.printStackTrace();
         }
+        return uf;
     }
 
     private UF getUFType(String ufType, int N) {
         switch (ufType) {
             case quickFind:
-                return new QuickUnionUF(N);
+                return new QuickFindUF(N);
             default:
                 return new QuickUnionUF(N);
         }

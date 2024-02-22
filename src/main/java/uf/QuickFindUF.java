@@ -27,4 +27,14 @@ public class QuickFindUF implements UF {
         return this.relation[p] == this.relation[q];
     }
 
+    public int find(int p) {
+        int largest = 0;
+        for (int i = 0; i < n; i++) {
+            if (relation[i] == relation[p] && i > largest) {
+                largest = i;
+            }
+        }
+        return largest;
+    }
+
 }
