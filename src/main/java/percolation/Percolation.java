@@ -5,11 +5,13 @@ public class Percolation {
 
     int n;
     int[] relation;
+    boolean[] site;
 
     public Percolation(int n) {
         this.n = n;
-        this.relation = new int[n];
-        for (int i = 0; i < n * n; i++) {
+        this.site = new boolean[(n * n) + 1];
+        this.relation = new int[(n * n) + 1];
+        for (int i = 0; i < (n * n) + 1; i++) {
             this.relation[i] = i;
         }
     }
@@ -17,23 +19,26 @@ public class Percolation {
     // opens the site (row, col) if it is not open already
     public void open(int row, int col) {
         int ind = getIndex(row, col);
-        if (ind < n) {
-            relation[ind] = -1;
+        this.site[ind] = true;
+        if (ind <= n) {
+            site[0] = true;
+            relation[ind] = 0;
         }
-        else if (ind >= (n * (n - 1))) {
-            relation[ind] = -2;
-        }
-
         for (int i = 1; i <= 4; i++) {
-            int dir = getIndexFromDir(1, row - 1, col - 1);
-            if (dir < 0) {
+            int dirIndex = getIndexFromDir(i, row, col);
+            if (dirIndex < 0 || !site[dirIndex] || connected(ind, dirIndex)) {
                 continue;
             }
-            union(ind, dir);
+            union(ind, dirIndex);
         }
     }
 
+    private boolean connected(int p, int q) {
+        return getRoot(p) == getRoot(q);
+    }
+
     private int getIndexFromDir(int dir, int row, int col) {
+        row--;
         switch (dir) {
             case 1:
                 if (row - 1 < 0) {
@@ -61,26 +66,27 @@ public class Percolation {
 
     private int getIndex(int row, int col) {
         row--;
-        col--;
-        if (row < 0 || row >= n || col < 0 || col >= n) {
+        if (row < 0 || row >= n || col < 0 || col > n) {
             throw new IllegalArgumentException();
         }
-        int ind = ((row - 1) * n) + (col - 1);
+        int ind = (row * n) + col;
         return ind;
     }
 
     private void union(int p, int q) {
-        int rootQ = getRoot(q);
-        int rootP = getRoot(p);
-        if (rootP > rootQ) {
-            relation[q] = rootP;
-            return;
+        q = getRoot(q);
+        p = getRoot(p);
+        if (p < q) {
+            relation[q] = p;
         }
-        relation[p] = rootQ;
+        else {
+            relation[p] = q;
+        }
     }
 
     private int getRoot(int p) {
-        while (relation[p] >= 0) {
+        while (relation[p] != p) {
+            relation[p] = relation[relation[p]];
             p = relation[p];
         }
         return p;
@@ -89,42 +95,46 @@ public class Percolation {
     // is the site (row, col) open?
     public boolean isOpen(int row, int col) {
         int ind = getIndex(row, col);
-        return relation[ind] != ind;
+        return site[ind];
     }
 
     // is the site (row, col) full?
     public boolean isFull(int row, int col) {
         int ind = getIndex(row, col);
         int root = getRoot(ind);
-        if (root == -1) {
-            return true;
-        }
-        return false;
+        return root == 0;
     }
 
     // returns the number of open sites
     public int numberOfOpenSites() {
         int size = 0;
         for (int i = 0; i < n * n; i++) {
-            if (relation[i] != i) size++;
+            if (site[i]) size++;
         }
         return size;
     }
 
     // does the system percolate?
     public boolean percolates() {
-        int row = n;
+        int row = n - 1;
         int col = 1;
-        for (int i = 0; i < n; i++) {
-            if (isFull(row, col + i)) {
+        for (int i = col; i <= n; i++) {
+            if (isFull(row, col)) {
                 return true;
             }
         }
         return false;
     }
 
-    // test client (optional)
-    public static void main(String[] args) {
-
+    private void printRelation() {
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= n; j++) {
+                int ind = getIndex(i, j);
+                System.out.print(relation[ind] + " ");
+            }
+            System.out.println();
+        }
+        System.out.println();
     }
+
 }
