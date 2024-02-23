@@ -9,9 +9,9 @@ public class Percolation {
 
     public Percolation(int n) {
         this.n = n;
-        this.site = new boolean[(n * n) + 1];
-        this.relation = new int[(n * n) + 1];
-        for (int i = 0; i < (n * n) + 1; i++) {
+        this.site = new boolean[(n * n) + 2];
+        this.relation = new int[(n * n) + 2];
+        for (int i = 0; i < (n * n) + 2; i++) {
             this.relation[i] = i;
         }
     }
@@ -22,7 +22,11 @@ public class Percolation {
         this.site[ind] = true;
         if (ind <= n) {
             site[0] = true;
-            relation[ind] = 0;
+            union(ind, 0);
+        }
+        else if (ind > n * (n - 1)) {
+            site[n * n] = true;
+            union(ind, n * n);
         }
         for (int i = 1; i <= 4; i++) {
             int dirIndex = getIndexFromDir(i, row, col);
@@ -116,14 +120,7 @@ public class Percolation {
 
     // does the system percolate?
     public boolean percolates() {
-        int row = n - 1;
-        int col = 1;
-        for (int i = col; i <= n; i++) {
-            if (isFull(row, col)) {
-                return true;
-            }
-        }
-        return false;
+        return connected(0, n * n);
     }
 
     private void printRelation() {

@@ -1,36 +1,35 @@
 package src.main.java.percolation;
 
 import edu.princeton.cs.algs4.StdOut;
+import edu.princeton.cs.algs4.StdRandom;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
-import java.util.Random;
 
 public class PercolationTest {
 
     @Test
     public void percolation() {
-        int size = 20;
+        int size = 200;
         Percolation perc = new Percolation(size);
-        Random rand = new Random();
         while (!perc.percolates() && perc.numberOfOpenSites() < size * size) {
-            int row = rand.nextInt(size) + 1;
-            int col = rand.nextInt(size) + 1;
+            int row = StdRandom.uniformInt(1, size + 1);
+            int col = StdRandom.uniformInt(1, size + 1);
             while (perc.isOpen(row, col)) {
-                row = rand.nextInt(size) + 1;
-                col = rand.nextInt(size) + 1;
+                row = StdRandom.uniformInt(1, size + 1);
+                col = StdRandom.uniformInt(1, size + 1);
             }
             perc.open(row, col);
         }
-        System.out.println(perc.numberOfOpenSites());
+        System.out.println(
+                "Percolation Threshold: " + (double) perc.numberOfOpenSites() / (size * size));
         Assertions.assertTrue(perc.percolates());
         // Assertions.assertTrue(iter < (size * size) * 0.60);
     }
 
     @Test
     public void stats() {
-        int N = 400;
-        int T = 200;
+        int N = 10;
+        int T = 100000;
         PercolationStats ps = new PercolationStats(N, T);
         String confidence = ps.confidenceLo() + ", " + ps.confidenceHi();
         StdOut.println("mean                    = " + ps.mean());
