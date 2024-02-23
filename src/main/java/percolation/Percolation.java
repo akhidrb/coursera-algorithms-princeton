@@ -120,7 +120,9 @@ public class Percolation {
 
     // does the system percolate?
     public boolean percolates() {
-        return connected(0, n * n);
+        boolean isConn = connected(0, n * n);
+        if (isConn) printRelation();
+        return isConn;
     }
 
     private void printRelation() {

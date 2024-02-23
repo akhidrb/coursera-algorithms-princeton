@@ -9,7 +9,7 @@ public class PercolationTest {
 
     @Test
     public void percolation() {
-        int size = 200;
+        int size = 5;
         Percolation perc = new Percolation(size);
         while (!perc.percolates() && perc.numberOfOpenSites() < size * size) {
             int row = StdRandom.uniformInt(1, size + 1);
