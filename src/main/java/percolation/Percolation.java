@@ -3,16 +3,21 @@ package src.main.java.percolation;
 public class Percolation {
     // creates n-by-n grid, with all sites initially blocked
 
-    int n;
-    int[] relation;
-    boolean[] site;
+    private int n;
+    private int openSites;
+    private int[] relation;
+    private boolean[] site;
+    private int[] size;
 
     public Percolation(int n) {
         this.n = n;
+        this.openSites = 0;
         this.site = new boolean[(n * n) + 2];
         this.relation = new int[(n * n) + 2];
+        this.size = new int[(n * n) + 2];
         for (int i = 0; i < (n * n) + 2; i++) {
             this.relation[i] = i;
+            this.size[i] = 1;
         }
     }
 
@@ -20,6 +25,7 @@ public class Percolation {
     public void open(int row, int col) {
         int ind = getIndex(row, col);
         this.site[ind] = true;
+        openSites++;
         if (ind <= n) {
             site[0] = true;
             union(ind, 0);
@@ -80,11 +86,13 @@ public class Percolation {
     private void union(int p, int q) {
         q = getRoot(q);
         p = getRoot(p);
-        if (p < q) {
+        if (size[q] < size[p]) {
             relation[q] = p;
+            size[p] += size[q];
         }
         else {
             relation[p] = q;
+            size[q] += size[p];
         }
     }
 
@@ -111,29 +119,16 @@ public class Percolation {
 
     // returns the number of open sites
     public int numberOfOpenSites() {
-        int size = 0;
-        for (int i = 0; i < n * n; i++) {
-            if (site[i]) size++;
-        }
-        return size;
+        return openSites;
     }
 
     // does the system percolate?
     public boolean percolates() {
-        boolean isConn = connected(0, n * n);
-        if (isConn) printRelation();
-        return isConn;
+        return connected(0, n * n);
     }
 
-    private void printRelation() {
-        for (int i = 1; i <= n; i++) {
-            for (int j = 1; j <= n; j++) {
-                int ind = getIndex(i, j);
-                System.out.print(relation[ind] + " ");
-            }
-            System.out.println();
-        }
-        System.out.println();
+    public static void main(String[] args) {
+
     }
 
 }
