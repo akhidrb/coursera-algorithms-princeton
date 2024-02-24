@@ -47,12 +47,12 @@ public class PercolationTest {
 
     @Test
     public void p2() {
-        int size = 5;
-        Percolation perc = new Percolation(size);
+        int n = 5;
+        Percolation perc = new Percolation(n);
         perc.open(4, 3);
         perc.open(3, 5);
-        perc.open(1, 3);
         perc.open(2, 3);
+        perc.open(1, 3);
         perc.open(2, 4);
         perc.open(2, 5);
         perc.open(4, 4);
@@ -61,7 +61,14 @@ public class PercolationTest {
         Assertions.assertTrue(perc.isFull(4, 3));
         perc.open(5, 3);
         Assertions.assertTrue(perc.percolates());
-        //     1  2  3  4  5
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= n; j++) {
+                int ind = perc.getIndex(i, j);
+                System.out.print(perc.find(ind) + "\t");
+            }
+            System.out.println();
+        }
+        // 1  2  3  4  5
         // 6  7  8  9  10
         // 11 12 13 14 15
         // 16 17 18 19 20

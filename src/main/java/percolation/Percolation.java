@@ -83,7 +83,7 @@ public class Percolation {
         return getIndex(row, col);
     }
 
-    private int getIndex(int row, int col) {
+    public int getIndex(int row, int col) {
         if (row < 1 || row > n || col < 1 || col > n) {
             throw new IllegalArgumentException();
         }
@@ -107,7 +107,7 @@ public class Percolation {
         }
     }
 
-    private int find(int p) {
+    public int find(int p) {
         while (relation[p] != p) {
             p = relation[p];
         }
