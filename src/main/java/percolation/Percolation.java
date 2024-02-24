@@ -36,7 +36,7 @@ public class Percolation {
         }
         for (int i = 1; i <= 4; i++) {
             int dirIndex = getIndexFromDir(i, row, col);
-            if (dirIndex < 0 || !site[dirIndex] || connected(ind, dirIndex)) {
+            if (dirIndex == -1 || !site[dirIndex] || connected(ind, dirIndex)) {
                 continue;
             }
             union(ind, dirIndex);
@@ -44,34 +44,37 @@ public class Percolation {
     }
 
     private boolean connected(int p, int q) {
-        return getRoot(p) == getRoot(q);
+        return find(p) == find(q);
     }
 
     private int getIndexFromDir(int dir, int row, int col) {
-        row--;
         switch (dir) {
             case 1:
-                if (row - 1 < 0) {
+                if (row == 1) {
                     return -1;
                 }
-                return ((row - 1) * n) + col;
+                row--;
+                break;
             case 2:
-                if (col + 1 >= n) {
+                if (col == n) {
                     return -1;
                 }
-                return (row * n) + (col + 1);
+                col++;
+                break;
             case 3:
-                if (row + 1 >= n) {
+                if (row == n) {
                     return -1;
                 }
-                return ((row + 1) * n) + col;
+                row++;
+                break;
             case 4:
-                if (col - 1 < 0) {
+                if (col == 1) {
                     return -1;
                 }
-                return (row * n) + (col - 1);
+                col--;
+                break;
         }
-        return getIndex(row + 1, col + 1);
+        return getIndex(row, col);
     }
 
     private int getIndex(int row, int col) {
@@ -84,8 +87,10 @@ public class Percolation {
     }
 
     private void union(int p, int q) {
-        q = getRoot(q);
-        p = getRoot(p);
+        q = find(q);
+        p = find(p);
+        if (p == q) return;
+
         if (size[q] < size[p]) {
             relation[q] = p;
             size[p] += size[q];
@@ -96,9 +101,8 @@ public class Percolation {
         }
     }
 
-    private int getRoot(int p) {
+    public int find(int p) {
         while (relation[p] != p) {
-            relation[p] = relation[relation[p]];
             p = relation[p];
         }
         return p;
@@ -113,7 +117,7 @@ public class Percolation {
     // is the site (row, col) full?
     public boolean isFull(int row, int col) {
         int ind = getIndex(row, col);
-        int root = getRoot(ind);
+        int root = find(ind);
         return root == 0;
     }
 
