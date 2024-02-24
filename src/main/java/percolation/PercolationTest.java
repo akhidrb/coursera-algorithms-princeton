@@ -43,6 +43,24 @@ public class PercolationTest {
         Assertions.assertTrue(caught);
         perc.open(3, 4);
         Assertions.assertEquals(2, perc.numberOfOpenSites());
+    }
+
+    @Test
+    public void p2() {
+        int size = 5;
+        Percolation perc = new Percolation(size);
+        perc.open(4, 3);
+        perc.open(3, 5);
+        perc.open(1, 3);
+        perc.open(2, 3);
+        perc.open(2, 4);
+        perc.open(2, 5);
+        perc.open(4, 4);
+        perc.open(4, 5);
+        Assertions.assertTrue(!perc.percolates());
+        Assertions.assertTrue(perc.isFull(4, 3));
+        perc.open(5, 3);
+        Assertions.assertTrue(perc.percolates());
         //     1  2  3  4  5
         // 6  7  8  9  10
         // 11 12 13 14 15
