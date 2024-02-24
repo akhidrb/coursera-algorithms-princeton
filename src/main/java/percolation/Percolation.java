@@ -78,10 +78,10 @@ public class Percolation {
     }
 
     private int getIndex(int row, int col) {
-        row--;
-        if (row < 0 || row >= n || col < 0 || col > n) {
+        if (row < 1 || row > n || col < 1 || col > n) {
             throw new IllegalArgumentException();
         }
+        row--;
         int ind = (row * n) + col;
         return ind;
     }
