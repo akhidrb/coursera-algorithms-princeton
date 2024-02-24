@@ -1,9 +1,3 @@
-/* *****************************************************************************
- *  Name:              Ada Lovelace
- *  Coursera User ID:  123456
- *  Last modified:     October 16, 1842
- **************************************************************************** */
-
 package src.main.java.percolation;
 
 import edu.princeton.cs.algs4.StdOut;
@@ -72,7 +66,6 @@ public class PercolationStats {
         int N = Integer.parseInt(args[0]);
         int T = Integer.parseInt(args[1]);
         PercolationStats pStats = new PercolationStats(N, T);
-
         String confidence = pStats.confidenceLo() + ", "
                 + pStats.confidenceHi();
         StdOut.println("mean                    = " + pStats.mean());
