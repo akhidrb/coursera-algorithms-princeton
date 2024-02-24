@@ -101,7 +101,7 @@ public class Percolation {
         }
     }
 
-    public int find(int p) {
+    private int find(int p) {
         while (relation[p] != p) {
             p = relation[p];
         }
