@@ -31,8 +31,8 @@ public class Percolation {
             union(ind, 0);
         }
         else if (ind > n * (n - 1)) {
-            site[n * n] = true;
-            union(ind, n * n);
+            site[n * n + 1] = true;
+            union(ind, n * n + 1);
         }
         for (int i = 1; i <= 4; i++) {
             int dirIndex = getIndexFromDir(i, row, col);
@@ -124,7 +124,7 @@ public class Percolation {
 
     // does the system percolate?
     public boolean percolates() {
-        return connected(0, n * n);
+        return connected(0, n * n + 1);
     }
 
     public static void main(String[] args) {
