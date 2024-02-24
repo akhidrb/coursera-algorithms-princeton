@@ -6,6 +6,7 @@
 
 package src.main.java.percolation;
 
+import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.StdRandom;
 import edu.princeton.cs.algs4.StdStats;
 
@@ -68,6 +69,14 @@ public class PercolationStats {
     }
 
     public static void main(String[] args) {
+        int N = Integer.parseInt(args[0]);
+        int T = Integer.parseInt(args[1]);
+        PercolationStats pStats = new PercolationStats(N, T);
 
+        String confidence = pStats.confidenceLo() + ", "
+                + pStats.confidenceHi();
+        StdOut.println("mean                    = " + pStats.mean());
+        StdOut.println("stddev                  = " + pStats.stddev());
+        StdOut.println("95% confidence interval = " + confidence);
     }
 }

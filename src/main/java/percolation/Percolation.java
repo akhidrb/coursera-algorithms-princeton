@@ -10,6 +10,9 @@ public class Percolation {
     private int[] size;
 
     public Percolation(int n) {
+        if (n < 1) {
+            throw new IllegalArgumentException();
+        }
         this.n = n;
         this.openSites = 0;
         this.site = new boolean[(n * n) + 2];
@@ -24,6 +27,9 @@ public class Percolation {
     // opens the site (row, col) if it is not open already
     public void open(int row, int col) {
         int ind = getIndex(row, col);
+        if (this.site[ind]) {
+            return;
+        }
         this.site[ind] = true;
         openSites++;
         if (ind <= n) {
